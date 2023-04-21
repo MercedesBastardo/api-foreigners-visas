@@ -1,4 +1,23 @@
+Martes 18/04/2023
+Grabación: https://vimeo.com/819224566?share=copy#t=5024
+Recuerden que su primer set de tareas son:
+Hacer cuenta de AWS https://aws.amazon.com/es/
+Hacer cuenta de Stripe https://stripe.com/en-mx
+Levantar su Starter (Código)
+Subir su starter a github y darle acceso a sus compañeros para hacer push
+Empezar a hacer los esquemas marcados en el notion (Generación 21)
 
+
+Jueves 21/04/2023
+https://us02web.zoom.us/rec/share/PUPpf8h83XF4sZSnOdi_T7xB77GtEvwTX-My-6lrbb7wHcym0VIPKE6woE2N8JT7.229hL5g3WoBEshHV?startTime=1682038125000
+Código de acceso: 5aB4QC
+TAREA:
+
+Avanzar con las rutas indicadas de applications
+        Recuerden que se indica en el notion
+        https://academlo.notion.site/Generaci-n-21-Endpoints-5aa62c31960547989f45a13b99e02820
+
+Cuenta de Stripe y AWS también
 # Auth Para Cuando Starter
 
 Este proyecto es un ejemplo de autenticación usando sequelize como ORM y un esquema básico y sencillo como DB
