@@ -4,29 +4,36 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.createTable('products', {
+      await queryInterface.createTable('application_payments', {
         id: {
           allowNull: false,
-          autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER
+          type: Sequelize.BIGINT,
+          autoIncrement: true
         },
-        name: {
-          type: Sequelize.STRING
-        },
-        price_id: {
-          type: Sequelize.STRING
-        },
-        description: {
-          type: Sequelize.STRING
-        },
-        createdAt: {
+        application_id: {
           allowNull: false,
-          type: Sequelize.DATE
+          primaryKey: true,
+          type: Sequelize.UUID,
+          foreignKey: true,
+          references: {
+            model: 'applications',
+            key: 'user_id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
         },
-        updatedAt: {
+        payment_intent: {
           allowNull: false,
-          type: Sequelize.DATE
+          type: Sequelize.STRING,
+        },
+        created_at: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
+        updated_at: {
+          allowNull: false,
+          type: Sequelize.DATE,
         }
       }, { transaction })
       await transaction.commit()
@@ -38,7 +45,7 @@ module.exports = {
   down: async (queryInterface, /*Sequelize*/) => {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      await queryInterface.dropTable('products', { transaction })
+      await queryInterface.dropTable('application_payments', { transaction })
       await transaction.commit()
     } catch (error) {
       await transaction.rollback()
