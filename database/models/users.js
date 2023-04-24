@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     token: {
       type: DataTypes.TEXT
-    },
+    }
   }, {
     sequelize,
     modelName: 'Users',

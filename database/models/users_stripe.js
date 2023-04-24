@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     client_id: {
       allowNull: false,
       type: DataTypes.STRING
-    },
+    }
   }, {
     sequelize,
     modelName: 'UsersStripe',

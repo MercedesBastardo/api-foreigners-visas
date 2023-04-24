@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Applications.belongsTo(models.Users,{as:'user', foreignKey:'user_id'})
-      Applications.hasMany(models.ApplicationPhotos, {as:'application', foreignKey: 'application_id'})
+      Applications.hasMany(models.ApplicationPhotos, {as:'photos', foreignKey: 'application_id'})
+      Applications.hasMany(models.ApplicationDocuments, {as:'documents', foreignKey: 'application_id'})
     }
   }
   Applications.init({
