@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      ApplicationDocuments.belongsTo(models.Applications, {as:'application', foreignKey:'application_id'})
+      ApplicationDocuments.belongsTo(models.Applications, { as: 'application', foreignKey: 'application_id' })
     }
   }
   ApplicationDocuments.init({
@@ -21,13 +21,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     url: {
       allowNull: false,
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     order: {
       allowNull: false,
       type: DataTypes.INTEGER,
+      primaryKey: true
     }
-
   }, {
     sequelize,
     modelName: 'ApplicationDocuments',
