@@ -18,11 +18,12 @@ module.exports = {
         },
         url: {
           allowNull: false,
-          type: Sequelize.STRING,
+          type: Sequelize.TEXT,
         },
         order: {
           allowNull: false,
           type: Sequelize.INTEGER,
+          primaryKey: true
         },
         created_at: {
           allowNull: false,

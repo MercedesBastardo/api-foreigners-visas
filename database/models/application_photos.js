@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      ApplicationPhotos.belongsTo(models.Applications, {as:'application', foreignKey:'application_id'})
+      ApplicationPhotos.belongsTo(models.Applications, { as: 'application', foreignKey: 'application_id' })
     }
   }
   ApplicationPhotos.init({
@@ -25,8 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     order: {
       allowNull: false,
-      type: DataTypes.INTEGER,
-      primaryKey: true
+      type: DataTypes.INTEGER
     }
   }, {
     sequelize,
