@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       Applications.belongsTo(models.Users,{as:'user', foreignKey:'user_id'})
       Applications.hasMany(models.ApplicationPhotos, {as:'photos', foreignKey: 'application_id'})
       Applications.hasMany(models.ApplicationDocuments, {as:'documents', foreignKey: 'application_id'})
+      Applications.hasMany(models.ApplicationsPayments, {as:'payments', foreignKey: 'application_id'})
     }
   }
   Applications.init({
