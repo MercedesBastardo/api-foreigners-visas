@@ -10,15 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Applications.belongsTo(models.Users,{as:'user', foreignKey:'user_id'})
-      Applications.hasMany(models.ApplicationPhotos, {as:'photos', foreignKey: 'application_id'})
-      Applications.hasMany(models.ApplicationDocuments, {as:'documents', foreignKey: 'application_id'})
-      Applications.hasMany(models.ApplicationsPayments, {as:'payments', foreignKey: 'application_id'})
+      Applications.belongsTo(models.Users, { as: 'user', foreignKey: 'user_id' })
+      Applications.hasMany(models.ApplicationPhotos, { as: 'photos', foreignKey: 'application_id' })
+      Applications.hasMany(models.ApplicationDocuments, { as: 'documents', foreignKey: 'application_id' })
+      Applications.hasMany(models.ApplicationsPayments, { as: 'payments', foreignKey: 'application_id' })
     }
   }
   Applications.init({
     user_id: {
-      allowNull: false,
       primaryKey: true,
       type: DataTypes.UUID
     },
@@ -31,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     nationality: {
-      allowNull:false,
+      allowNull: false,
       type: DataTypes.STRING
     },
     email: {
@@ -43,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     date_of_birth: {
-      allowNull:false,
+      allowNull: false,
       type: DataTypes.DATEONLY
     },
     gender: {
@@ -77,7 +76,7 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       allowNull: false,
       type: DataTypes.STRING,
-      Validate:{isIn:['draft', 'confirmed']}
+      Validate: { isIn: ['draft', 'confirmed'] }
     }
   }, {
     sequelize,

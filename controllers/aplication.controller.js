@@ -11,9 +11,7 @@ const models = require('../database/models')
 const authService = new AuthService()
 const usersService = new UsersService()
 
-
 const getAplication = async (request, response, next) => {
-
   try {
     const { id } = request.user;
     const result = await models.Applications.findOne({ where: { id } });
@@ -23,14 +21,47 @@ const getAplication = async (request, response, next) => {
   catch (error) {
     next(error)
   }
+}
 
+const createAplication = async (request, response, next) => {
+  try {
+    const { legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status } = request.body;
+
+    const result = await models.Applications.create({ legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status });
+
+    if (!result) return response.sendStatus(409)
+
+    return response.status(201).json(result);
+  }
+  catch (error) {
+    next(error)
+  }
+}
+
+const updateAplication = async (request, response, next) => {
+  try {
+    const { id } = request.user;
+    const application = await models.Applications.findOne({ where: { id } });
+    if (!application) return response.sendStatus(404);
+    if (application.status === 'confirmed') return response.sendStatus(403);
+
+    const { legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status } = request.body;
+
+    const result = await models.Applications.update({ legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status },
+      { where: { id }, returning: true });
+
+
+    return response.status(200).json(result[1][0]);
+  }
+  catch (error) {
+    next(error)
+  }
 }
 
 
-
-
 module.exports = {
-
-  getAplication
+  getAplication,
+  createAplication,
+  updateAplication
 
 }
