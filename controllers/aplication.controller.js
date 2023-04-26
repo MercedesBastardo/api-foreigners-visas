@@ -14,7 +14,8 @@ const usersService = new UsersService()
 const getAplication = async (request, response, next) => {
   try {
     const { id } = request.user;
-    const result = await models.Applications.findOne({ where: { user_id: id } });
+
+    const result = await models.Applications.findAll({ where: { user_id: id } });
 
     if (!result) return response.sendStatus(404);
     return response.status(200).json(result);
@@ -33,7 +34,7 @@ const createAplication = async (request, response, next) => {
 
     if (!result) return response.sendStatus(409)
 
-    return response.status(201).json({ menssage: `${id}` });
+    return response.status(201).json(result);
   }
   catch (error) {
     next(error)
@@ -43,7 +44,7 @@ const createAplication = async (request, response, next) => {
 const updateAplication = async (request, response, next) => {
   try {
     const { id } = request.user;
-    const application = await models.applications.findOne({ where: { id } });
+    const application = await models.Applications.findAll({ where: { id } });
     if (!application) return response.sendStatus(404);
     if (application.status === 'confirmed') return response.sendStatus(403);
 
