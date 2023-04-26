@@ -14,9 +14,9 @@ const usersService = new UsersService()
 const getAplication = async (request, response, next) => {
   try {
     const { id } = request.user;
-    const result = await models.applications.findOne({ where: { id } });
+    const result = await models.Applications.findOne({ where: { user_id: id } });
 
-    //if (!result) return response.sendStatus(404);
+    if (!result) return response.sendStatus(404);
     return response.status(200).json(result);
   }
   catch (error) {
@@ -29,7 +29,7 @@ const createAplication = async (request, response, next) => {
     const { id } = request.user;
     const { legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status } = request.body;
 
-    const result = await models.applications.create({ user_id: id, legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status });
+    const result = await models.Applications.create({ user_id: id, legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status });
 
     if (!result) return response.sendStatus(409)
 
