@@ -10,81 +10,78 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Applications.belongsTo(models.Users,{as:'user', foreignKey:'user_id'})
-      Applications.hasMany(models.ApplicationPhotos, {as:'photos', foreignKey: 'application_id'})
-      Applications.hasMany(models.ApplicationDocuments, {as:'documents', foreignKey: 'application_id'})
-      Applications.hasMany(models.ApplicationsPayments, {as:'payments', foreignKey: 'application_id'})
+      // define association here
+      Applications.belongsTo(models.Users, { as: 'user', foreignKey: 'user_id' })
+      Applications.hasMany(models.ApplicationsPhotos, { as: 'photos', foreignKey: 'application_id' })
+      Applications.hasMany(models.ApplicationsPayments, { as: 'payments', foreignKey: 'application_id' })
+      Applications.hasMany(models.ApplicationsDocuments, { as: 'documents', foreignKey: 'application_id' })
     }
   }
   Applications.init({
     user_id: {
+      type: DataTypes.UUID,
       allowNull: false,
-      primaryKey: true,
-      type: DataTypes.UUID
+      primaryKey: true
     },
     legal_first_names: {
-      allowNull: false,
       type: DataTypes.STRING,
+      allowNull: false
     },
     legal_last_names: {
-      allowNull: false,
       type: DataTypes.STRING,
+      allowNull: false
     },
     nationality: {
-      allowNull:false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     email: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     phone: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     date_of_birth: {
-      allowNull:false,
-      type: DataTypes.DATEONLY
+      type: DataTypes.DATEONLY,
+      allowNull: false
     },
     gender: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     passport_number: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     passport_expiration_date: {
-      allowNull: false,
-      type: DataTypes.DATEONLY
+      type: DataTypes.DATEONLY,
+      allowNull: false
     },
     residence: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     residence_address: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     job: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     comments: {
-      allowNull: false,
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     status: {
-      allowNull: false,
       type: DataTypes.STRING,
-      Validate:{isIn:['draft', 'confirmed']}
+      allowNull: false
     }
   }, {
     sequelize,
     modelName: 'Applications',
-    tableName: 'applications',
-    underscored: true,
-    timestamps: true,
   });
   return Applications;
 };
