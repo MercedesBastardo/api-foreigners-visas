@@ -10,31 +10,29 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      ApplicationsPayments.belongsTo(models.Applications, {as:'application', foreignKey:'application_id'})
+      // define association here
+      ApplicationsPayments.belongsTo(models.Applications, { as: 'application', foreignKey: 'application_id' })
     }
   }
   ApplicationsPayments.init({
-    application_id: {
-      allowNull: false,
-      type: DataTypes.UUID,
-      foreignKey: true
-    },
     id: {
-      allowNull: false,
       type: DataTypes.BIGINT,
+      allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
-    payment_intent: {
+    application_id: {
+      type: DataTypes.UUID,
       allowNull: false,
+      foreignKey: true
+    },
+    payment_intent: {
       type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     sequelize,
     modelName: 'ApplicationsPayments',
-    tableName: 'applications_payments',
-    underscored: true,
-    timestamps: true,
   });
   return ApplicationsPayments;
 };

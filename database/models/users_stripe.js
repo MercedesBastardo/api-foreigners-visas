@@ -10,25 +10,25 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      // define association here
       UsersStripe.belongsTo(models.Users, { as: 'user', foreignKey: 'user_id' })
     }
   }
   UsersStripe.init({
     user_id: {
-      allowNull: false,
       type: DataTypes.UUID,
+      allowNull: false,
+      foreignKey: true,
       primaryKey: true
+
     },
     client_id: {
-      allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     sequelize,
     modelName: 'UsersStripe',
-    tableName: 'users_stripe',
-    underscored: true,
-    timestamps: true
   });
   return UsersStripe;
 };
