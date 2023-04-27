@@ -77,7 +77,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['draft', 'confirmed']],
+          msg: "Only values allowed: draft | confirmed"
+        }
+      }
     }
   }, {
     sequelize,

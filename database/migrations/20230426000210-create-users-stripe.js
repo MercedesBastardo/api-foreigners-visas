@@ -1,35 +1,48 @@
-'use strict';
-/** @type {import('sequelize-cli').Migration} */
+'use strict'
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users_stripes', {
-      user_id: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        primaryKey: true,
-        foreignKey: true,
-        references: {
-          model: 'users',
-          key: 'id'
+  up: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.createTable('users_stripe', {
+        user_id: {
+          primaryKey: true,
+          type: Sequelize.UUID,
+          allowNull: false,
+          foreignKey: true,
+          references: {
+            model: 'users',
+            key: 'id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'RESTRICT'
-      },
-      client_id: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
+        client_id: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        created_at: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
+        updated_at: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        }
+      }, { transaction });
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users_stripes');
+  down: async (queryInterface, /*Sequelize*/) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.dropTable('users_stripe', { transaction })
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
   }
-};
+}

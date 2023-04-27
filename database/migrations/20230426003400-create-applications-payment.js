@@ -1,41 +1,53 @@
-'use strict';
-/** @type {import('sequelize-cli').Migration} */
+'use strict'
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('applications_payments', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.BIGINT
-      },
-      application_id: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        primaryKey: true,
-        foreignKey: true,
-        references: {
-          model: 'users',
-          key: 'id'
+  up: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.createTable('applications_payments', {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.BIGINT
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'RESTRICT'
-      },
-      payment_intent: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    });
+        application_id: {
+          type: Sequelize.UUID,
+          allowNull: false,
+          foreignKey: true,
+          references: {
+            model: 'applications',
+            key: 'user_id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'RESTRICT'
+        },
+        payment_intent: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        created_at: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
+        updated_at: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        }
+      }, { transaction });
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('applications_payments');
+  down: async (queryInterface, /*Sequelize*/) => {
+    const transaction = await queryInterface.sequelize.transaction()
+    try {
+      await queryInterface.dropTable('applications_payments', { transaction })
+      await transaction.commit()
+    } catch (error) {
+      await transaction.rollback()
+      throw error
+    }
   }
-};
+}
