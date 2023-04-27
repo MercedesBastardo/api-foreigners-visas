@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   ApplicationsDocuments.init({
-    aplication_id: {
+    application_id: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
