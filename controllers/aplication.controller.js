@@ -1,70 +1,47 @@
+const ApplicationsServices = require('../services/applications.services');
+const applicationsServices = new ApplicationsServices();
 
-const AuthService = require('../services/auth.service')
-const UsersService = require('../services/users.service')
-const { CustomError } = require('../utils/helpers')
-const jwt = require('jsonwebtoken')
-const sender = require('../libs/nodemailer')
-require('dotenv').config()
 
-const models = require('../database/models')
-
-const authService = new AuthService()
-const usersService = new UsersService()
-
-const getAplication = async (request, response, next) => {
+const getApplication = async (request, response, next) => {
   try {
-    const { id } = request.user;
-
-    const result = await models.Applications.findAll({ where: { user_id: id } });
-
-    if (!result) return response.sendStatus(404);
-    return response.status(200).json(result);
-  }
-  catch (error) {
+    let { id } = request.user;
+    let application = await applicationsServices.getApplicationOr404(id);
+    return response.status(200).json({ results: application })
+  } catch (error) {
     next(error)
   }
 }
 
-const createAplication = async (request, response, next) => {
+const addApplication = async (request, response, next) => {
   try {
-    const { id } = request.user;
-    const { legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status } = request.body;
-
-    const result = await models.Applications.create({ user_id: id, legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status });
-
-    if (!result) return response.sendStatus(409)
-
-    return response.status(201).json(result);
-  }
-  catch (error) {
+    let { body } = request;
+    let { id } = request.user
+    body.user_id = id
+    let application = await applicationsServices.createApplication(body);
+    return response.status(201).json({ results: application })
+  } catch (error) {
     next(error)
   }
 }
 
-const updateAplication = async (request, response, next) => {
+const updateApplication = async (request, response, next) => {
   try {
-    const { id } = request.user;
-    const application = await models.Applications.findAll({ where: { id } });
-    if (!application) return response.sendStatus(404);
-    if (application.status === 'confirmed') return response.sendStatus(403);
-
-    const { legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status } = request.body;
-
-    const result = await models.Applications.update({ legal_first_names, legal_last_names, nationality, email, phone, date_of_birth, gender, passport_number, passport_expiration_date, residence, residence_address, job, comments, status },
-      { where: { id }, returning: true });
-
-
-    return response.status(200).json(result[1][0]);
-  }
-  catch (error) {
+    let { id } = request.user
+    let { body } = request
+    let application = await applicationsServices.updateAplication(id, body)
+    return response.json({ results: application })
+  } catch (error) {
     next(error)
   }
 }
+
+
+
+
 
 
 module.exports = {
-  getAplication,
-  createAplication,
-  updateAplication
-
+  getApplication,
+  addApplication,
+  updateApplication
 }
